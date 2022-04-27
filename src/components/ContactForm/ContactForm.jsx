@@ -4,18 +4,25 @@ import { nanoid } from 'nanoid';
 import PropTypes from 'prop-types';
 
 export const ContactForm = ({ addContact }) => {
+  
   const [name, setName] = useState('');
-  const [number, setNamber] = useState('');
+  const [number, setNumber] = useState('');
 
   const nameInputId = nanoid();
   const numberInputId = nanoid();
 
-  const handleNameChange = event => {
-    setName(event.currentTarget.value);
-  };
-
-  const handleNumberChange = event => {
-    setNamber(event.currentTarget.value);
+  const handleChange = event => {
+    const { name, value } = event.target;
+    switch (name) {
+      case 'name':
+        setName(value);
+        break;
+      case 'number':
+        setNumber(value);
+        break;
+      default:
+        return;
+    }
   };
 
   const handleSubmit = event => {
@@ -26,7 +33,7 @@ export const ContactForm = ({ addContact }) => {
 
   const reset = () => {
     setName('');
-    setNamber('');
+    setNumber('');
   };
 
   return (
@@ -40,7 +47,7 @@ export const ContactForm = ({ addContact }) => {
           title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
           required
           value={name}
-          onChange={handleNameChange}
+          onChange={handleChange}
           id={nameInputId}
         />
       </Label>
@@ -53,7 +60,7 @@ export const ContactForm = ({ addContact }) => {
           title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
           required
           value={number}
-          onChange={handleNumberChange}
+          onChange={handleChange}
           id={numberInputId}
         />
       </Label>
