@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
-import { ContactForm } from './ContactForm/ContactForm';
+import ContactForm from './ContactForm/ContactForm';
 import {
   TitleContactFotm,
   TitleContact,
 } from './ContactForm/ContactForm.styled';
 import { Filter } from 'components/Filter/Filter';
 import { Notification } from './Notification/Notification';
-import { ContactList } from '../components/ContactList/ContactList';
+import { ListContact } from '../components/ContactList/ContactList';
 import { nanoid } from 'nanoid';
 
 const contactList = [
@@ -16,9 +16,10 @@ const contactList = [
   { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
 ];
 
-
 export const App = () => {
-  const [contacts, setContacts] = useState(() => {return JSON.parse(window.localStorage.getItem('contacts')) ?? contactList});
+  const [contacts, setContacts] = useState(() => {
+    return JSON.parse(window.localStorage.getItem('contacts')) ?? contactList;
+  });
   const [filter, setFilter] = useState('');
 
   useEffect(() => {
@@ -31,9 +32,14 @@ export const App = () => {
       name,
       number,
     };
-    if (contacts.find(contact => contact.name.toLowerCase() === name.toLowerCase())) 
-    {alert(`${name} is already contacts.`);
-    }  else {setContacts(prevState => [contact, ...prevState]);
+    if (
+      contacts.find(
+        contact => contact.name.toLowerCase() === name.toLowerCase()
+      )
+    ) {
+      alert(`${name} is already contacts.`);
+    } else {
+      setContacts(prevState => [contact, ...prevState]);
     }
   };
 
@@ -59,8 +65,14 @@ export const App = () => {
       <TitleContactFotm>Phonebook</TitleContactFotm>
       <ContactForm addContact={addContact} />
       <TitleContact>Contacts</TitleContact>
-     {contacts.length > 1 && ( <Filter filter={filter} onFilterHandleChange={onFilterHandleChange} />)}
-      {contacts.length ?(<ContactList contact={visibleContact} onContactDelete={contactDelete} />):(   <Notification message="List is empty" />)}
+      {contacts.length > 1 && (
+        <Filter filter={filter} onFilterHandleChange={onFilterHandleChange} />
+      )}
+      {contacts.length ? (
+        <ListContact contact={visibleContact} onContactDelete={contactDelete} />
+      ) : (
+        <Notification message="List is empty" />
+      )}
     </div>
   );
 };
